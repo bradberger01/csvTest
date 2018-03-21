@@ -9,27 +9,22 @@ namespace CsvTest
 {
     class Program
     {
+        
+
+
         static void Main(string[] args)
         {   //reading the file, may need to cahnage directory of file depending on where it lives
             string filePath = @"C:\Users\WeCanCodeIT\Desktop\test.csv";
 
             List<string> lines = File.ReadAllLines(filePath).ToList();
-            //Count the lines
-            int numberOfLines = 0;
-
-            foreach (string line in lines)
-            {
-                numberOfLines++;
-            }
-            numberOfLines = numberOfLines - 1;
-            //Because top line are names of items not records
-            Console.WriteLine("Number of records in the file: " + numberOfLines);
+           
 
             //Split lines into line items GUID, Val1, Val2, Val3
             List<LineItem> items = new List<LineItem>();
 
             foreach (string line in lines)
             {
+                //Change Val1 and Val2 from string to int
                 string[] entries = line.Replace('"', ' ').Trim().Split(',');
                 int number;
                 int number2;
@@ -48,10 +43,35 @@ namespace CsvTest
                 
             }
 
+            //Count the lines
+            int numberOfLines = 0;
+
+            foreach (string line in lines)
+            {
+                numberOfLines++;
+            }
+
+            Console.WriteLine("Number of records in the file: " + numberOfLines);
+
+            //Greatest sum of 2 vals, and Guid
+            int sumOfVals;
+            int greatestSum = 0;
+            string correspondingGuid = null;
             foreach (var lineItem in items)
             {
-                Console.WriteLine(lineItem.Val1 + lineItem.Val2);
+                sumOfVals = lineItem.Val1 + lineItem.Val2;
+                correspondingGuid = lineItem.Guid;
+                if (sumOfVals >= greatestSum)
+                {
+                    greatestSum = sumOfVals;
+                    correspondingGuid = lineItem.Guid;
+                }
+
+                
             }
+            Console.WriteLine(correspondingGuid + greatestSum);
+
+
         }
     }
 }
